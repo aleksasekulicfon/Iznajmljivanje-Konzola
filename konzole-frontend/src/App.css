@@ -1,0 +1,48 @@
+.app-navbar {
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0));
+  backdrop-filter: saturate(120%) blur(2px);
+}
+
+.app-navbar .navbar-brand {
+  letter-spacing: 0.2px;
+  transition: opacity .15s ease;
+}
+.app-navbar .navbar-brand:hover { opacity: 0.9; }
+
+.app-navbar .nav-link {
+  position: relative;
+  transition: color .15s ease;
+}
+.app-navbar .nav-link:hover,
+.app-navbar .nav-link:focus {
+  color: #ffffff;
+}
+.app-navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: .5rem;
+  right: .5rem;
+  bottom: .35rem;
+  height: 2px;
+  background: rgba(255,255,255,.35);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .2s ease;
+}
+.app-navbar .nav-link:hover::after { transform: scaleX(1); }
+
+.app-footer {
+  background-image: linear-gradient(0deg, rgba(255,255,255,0.04), rgba(0,0,0,0));
+}
+.app-footer .footer-link {
+  color: rgba(255,255,255,.7);
+}
+.app-footer .footer-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.vr {
+  border-left: 1px solid rgba(255,255,255,.25);
+  height: 18px;
+}

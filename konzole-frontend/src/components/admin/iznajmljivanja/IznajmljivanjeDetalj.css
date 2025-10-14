@@ -1,0 +1,236 @@
+/* ===== GLAVNI KONTEJNER ===== */
+.iznajmljivanje-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  background: #f9fafc;
+  border-radius: 16px;
+  padding: 30px 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", sans-serif;
+  color: #333;
+  transition: background 0.3s ease;
+}
+
+/* ===== HEADER SEKCIJA ===== */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header-section h2 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #222;
+}
+
+/* ===== STATUS BADGE ===== */
+.status-badge {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 13px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+}
+
+.status-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* U_TOKU - zelena */
+.status-badge.u_toku {
+  background: linear-gradient(135deg, #28a745, #3ddc84);
+  box-shadow: 0 3px 10px rgba(56, 193, 114, 0.4);
+}
+
+/* ZAVRSENO - zuta */
+.status-badge.zavrseno {
+  background: linear-gradient(135deg, #ffca28, #fbc02d);
+  color: #333;
+  box-shadow: 0 3px 10px rgba(251, 192, 45, 0.4);
+}
+
+/* OTKAZANO - crvena */
+.status-badge.otkazano {
+  background: linear-gradient(135deg, #e53935, #ef5350);
+  box-shadow: 0 3px 10px rgba(239, 83, 80, 0.4);
+}
+
+/* ===== GRID INFORMACIJE ===== */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.info-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.label {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #666;
+  font-weight: 500;
+}
+
+.highlight {
+  color: #1e88e5;
+  font-weight: 600;
+}
+
+/* ===== TIMER SEKCIJA ===== */
+.timer-card {
+  background: linear-gradient(90deg, #007bff15, #1e88e510);
+  border: 1px solid #007bff30;
+  border-radius: 10px;
+  padding: 18px 25px;
+  margin-bottom: 25px;
+  text-align: center;
+  animation: fadeIn 0.6s ease;
+}
+
+.timer-card h4 {
+  font-family: "Consolas", monospace;
+  color: #333;
+  margin-top: 5px;
+}
+
+/* ===== STAVKE GRID ===== */
+.stavke-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 15px;
+  align-items: stretch;
+}
+
+.stavka-card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stavka-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stavka-img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+.price span {
+  font-size: 14px;
+  color: #777;
+}
+
+/* ===== BUTTONS ===== */
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 35px;
+}
+
+/* Moderno "Završi" dugme */
+.btn-primary {
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(39, 174, 96, 0.5);
+  opacity: 0.95;
+}
+
+/* Moderno "Nazad" dugme */
+.btn-secondary {
+  background: #f2f3f4;
+  color: #333;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+/* ===== ALERT ===== */
+.alert-error {
+  margin-top: 20px;
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px 18px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ===== LOADER ===== */
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  font-size: 1.3rem;
+  color: #555;
+}
+
+/* ===== ANIMACIJE ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
