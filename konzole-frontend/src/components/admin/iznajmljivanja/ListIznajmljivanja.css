@@ -171,3 +171,63 @@
   color: #777;
   padding: 20px;
 }
+
+.status-paid {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-unpaid {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* ===== ANIMACIJA STRANICE ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeSlideIn 0.7s ease-out forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.modern-table tbody tr {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: rowFadeIn 0.4s ease forwards;
+}
+.modern-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.modern-table tbody tr:nth-child(2) { animation-delay: 0.15s; }
+.modern-table tbody tr:nth-child(3) { animation-delay: 0.2s; }
+.modern-table tbody tr:nth-child(4) { animation-delay: 0.25s; }
+.modern-table tbody tr:nth-child(5) { animation-delay: 0.3s; }
+.modern-table tbody tr:nth-child(6) { animation-delay: 0.35s; }
+.modern-table tbody tr:nth-child(7) { animation-delay: 0.4s; }
+.modern-table tbody tr:nth-child(8) { animation-delay: 0.45s; }
+.modern-table tbody tr:nth-child(9) { animation-delay: 0.5s; }
+.modern-table tbody tr:nth-child(10) { animation-delay: 0.55s; }
+.modern-table tbody tr:nth-child(11) { animation-delay: 0.6s; }
+
+
+
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

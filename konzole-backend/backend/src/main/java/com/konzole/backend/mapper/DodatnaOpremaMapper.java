@@ -14,6 +14,7 @@ public class DodatnaOpremaMapper {
         dto.setCena(d.getCena());
         dto.setStanje(d.getStanje());
         dto.setTip(d.getTip());
+        dto.setZalihe(d.getZalihe());
         return dto;
     }
 
@@ -26,6 +27,7 @@ public class DodatnaOpremaMapper {
         d.setCena(dto.getCena());
         d.setStanje(dto.getStanje());
         d.setTip(dto.getTip());
+        d.setZalihe(dto.getZalihe());
         return d;
     }
 }

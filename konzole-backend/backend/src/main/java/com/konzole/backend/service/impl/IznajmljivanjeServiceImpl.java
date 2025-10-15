@@ -3,6 +3,7 @@ package com.konzole.backend.service.impl;
 import com.konzole.backend.dto.IznajmljivanjeDto;
 import com.konzole.backend.dto.StavkaIznajmljivanjaDto;
 import com.konzole.backend.entity.*;
+import com.konzole.backend.entity.enums.Stanje;
 import com.konzole.backend.entity.enums.Status;
 import com.konzole.backend.exception.ResourceNotFoundException;
 import com.konzole.backend.mapper.IznajmljivanjeMapper;
@@ -26,7 +27,6 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
     private final RadnikRepository radnikRepository;
     private final KlijentRepository klijentRepository;
     private final OpremaRepository opremaRepository;
-    private final StavkaIznajmljivanjaRepository stavkaRepository;
 
     @Override
     public IznajmljivanjeDto create(IznajmljivanjeDto dto) {
@@ -51,7 +51,7 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
         }
 
         entity.preracunajUkupno();
-
+        rezervisiOpreme(entity);
         Iznajmljivanje saved = iznajmljivanjeRepository.save(entity);
         return IznajmljivanjeMapper.toDto(saved);
     }
@@ -78,13 +78,24 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Iznajmljivanje nije pronađeno: " + id));
 
         if (dto.getPocetak() != null) e.setPocetak(dto.getPocetak());
-        if (dto.getKraj() != null)     e.setKraj(dto.getKraj());
-        if (dto.getPlaceno() != null)  e.setPlaceno(dto.getPlaceno());
-        if (dto.getStatus() != null)   e.setStatus(dto.getStatus());
+        if (dto.getKraj() != null) e.setKraj(dto.getKraj());
+        if (dto.getPlaceno() != null) e.setPlaceno(dto.getPlaceno());
+        if (dto.getStatus() != null) e.setStatus(dto.getStatus());
 
-        // ne diramo stavke ovde; za to postoje posebni endpointi
+        if (dto.getStavke() != null) {
+            e.getStavke().clear();
+            for (StavkaIznajmljivanjaDto sDto : dto.getStavke()) {
+                Oprema oprema = opremaRepository.findById(sDto.getOpremaId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Oprema nije pronađena: " + sDto.getOpremaId()));
+                var s = StavkaIznajmljivanjaMapper.toEntity(sDto, oprema);
+                e.addStavka(s);
+            }
+        }
+        oslobodiOpreme(e);
+        e.getStavke().clear();
+
         e.preracunajUkupno();
-
+        rezervisiOpreme(e);
         return IznajmljivanjeMapper.toDto(iznajmljivanjeRepository.save(e));
     }
 
@@ -101,7 +112,7 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
         e.setKraj(LocalDateTime.now());
         e.setStatus(Status.ZAVRSENO);
         e.preracunajUkupno();
-
+        oslobodiOpreme(e);
         return IznajmljivanjeMapper.toDto(iznajmljivanjeRepository.save(e));
     }
 
@@ -123,4 +134,30 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
         e.preracunajUkupno();
         return IznajmljivanjeMapper.toDto(iznajmljivanjeRepository.save(e));
     }
+
+    private void rezervisiOpreme(Iznajmljivanje iznajmljivanje) {
+        for (StavkaIznajmljivanja s : iznajmljivanje.getStavke()) {
+            Oprema oprema = opremaRepository.findById(s.getOprema().getId()).orElseThrow();
+            if (oprema.getZalihe() < s.getKolicina()) {
+                throw new RuntimeException("Nema dovoljno zaliha za " + oprema.getNaziv());
+            }
+            oprema.setZalihe(oprema.getZalihe() - s.getKolicina());
+            if (oprema.getZalihe() == 0) {
+                oprema.setStanje(Stanje.ZAUZETA);
+            }
+            opremaRepository.save(oprema);
+        }
+    }
+
+    private void oslobodiOpreme(Iznajmljivanje iznajmljivanje) {
+        for (StavkaIznajmljivanja s : iznajmljivanje.getStavke()) {
+            Oprema oprema = opremaRepository.findById(s.getOprema().getId()).orElseThrow();
+            oprema.setZalihe(oprema.getZalihe() + s.getKolicina());
+            if (oprema.getZalihe() > 0 && oprema.getStanje() != Stanje.SERVIS) {
+                oprema.setStanje(Stanje.SLOBODNA);
+            }
+            opremaRepository.save(oprema);
+        }
+    }
+
 }

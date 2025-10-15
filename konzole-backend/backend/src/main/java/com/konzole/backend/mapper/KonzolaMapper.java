@@ -13,6 +13,7 @@ public class KonzolaMapper {
         dto.setProizvodjac(k.getProizvodjac());
         dto.setCena(k.getCena());
         dto.setStanje(k.getStanje());
+        dto.setZalihe(k.getZalihe());
         dto.setInventarskiBroj(k.getInventarskiBroj());
         return dto;
     }
@@ -25,6 +26,7 @@ public class KonzolaMapper {
         k.setProizvodjac(dto.getProizvodjac());
         k.setCena(dto.getCena());
         k.setStanje(dto.getStanje());
+        k.setZalihe(dto.getZalihe());
         k.setInventarskiBroj(dto.getInventarskiBroj());
         return k;
     }

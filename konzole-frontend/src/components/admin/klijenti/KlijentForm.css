@@ -1,0 +1,100 @@
+.klijent-form {
+  max-width: 600px;
+  background: #f9fafc;
+  border-radius: 16px;
+  padding: 30px 35px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+  font-weight: 700;
+  color: #222;
+}
+
+.form-box label {
+  font-weight: 600;
+  color: #333;
+}
+
+.modern-input {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: all 0.2s;
+}
+.modern-input:focus {
+  border-color: #00b894;
+  box-shadow: 0 0 0 2px #00b89433;
+}
+
+/* Dugmad */
+.btn-save {
+  background: linear-gradient(90deg, #008268, #00fffb);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.btn-save:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.btn-cancel {
+  background: #f1f1f1;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #333;
+  transition: 0.2s;
+}
+.btn-cancel:hover {
+  background: #e2e2e2;
+}
+
+.shine-in {
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: shineSlideIn 0.8s ease-out forwards;
+  overflow: hidden;
+}
+
+.shine-in::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 40%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shineLight 2s ease-in-out 0.2s forwards;
+}
+
+@keyframes shineSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shineLight {
+  0% {
+    left: -80%;
+  }
+  100% {
+    left: 120%;
+  }
+}

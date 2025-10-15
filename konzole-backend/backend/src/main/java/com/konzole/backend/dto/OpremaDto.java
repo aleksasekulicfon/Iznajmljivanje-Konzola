@@ -10,4 +10,5 @@ public class OpremaDto {
     private String proizvodjac;
     private Double cena;
     private Stanje stanje;
+    private Integer zalihe;
 }

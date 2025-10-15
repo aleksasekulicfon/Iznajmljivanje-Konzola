@@ -1,53 +1,93 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as RadnikService from "../../../services/RadnikService";
+import "./RadnikForm.css";
 
 export default function RadnikForm() {
-  const { id } = useParams(); // "new" | id
+  const { id } = useParams();
   const isNew = id === "new";
   const nav = useNavigate();
 
-  const [form, setForm] = useState({ ime: "", prezime: "", korisnickoIme: "" });
+  const [form, setForm] = useState({
+    ime: "",
+    prezime: "",
+    korisnickoIme: "",
+    lozinka: "", // 🔹 prazno po defaultu
+  });
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    if (!isNew) RadnikService.getById(id).then(setForm);
+    if (!isNew) {
+      RadnikService.getById(id).then(setForm);
+    }
   }, [id, isNew]);
 
   async function onSubmit(e) {
     e.preventDefault();
     try {
-      if (isNew) await RadnikService.create(form);
-      else await RadnikService.update(id, form);
+      const payload = { ...form, lozinka: form.lozinka || "" };
+
+      if (isNew) await RadnikService.create(payload);
+      else await RadnikService.update(id, payload);
+
       nav("/admin/radnici");
     } catch (e) {
-      setErr(e?.response?.data?.message || "Greška.");
+      setErr(e?.response?.data?.message || "Greška pri čuvanju podataka.");
     }
   }
 
   return (
-    <div className="container mt-4" style={{maxWidth: 560}}>
-      <h4 className="mb-3">{isNew ? "Novi radnik" : `Izmena: #${id}`}</h4>
-      <form onSubmit={onSubmit}>
-        <div className="mb-2">
-          <label className="form-label">Ime</label>
-          <input className="form-control"
-                 value={form.ime} onChange={(e)=>setForm({...form, ime: e.target.value})}/>
+    <div className="radnik-form-container container mt-4 shine-in">
+      <h3 className="form-title mb-3">
+        {isNew ? "➕ Novi radnik" : `✏️ Izmena radnika #${id}`}
+      </h3>
+
+      <form className="radnik-form" onSubmit={onSubmit}>
+        <div className="form-group">
+          <label>Ime</label>
+          <input
+            type="text"
+            value={form.ime}
+            onChange={(e) => setForm({ ...form, ime: e.target.value })}
+            placeholder="Unesi ime..."
+          />
         </div>
-        <div className="mb-2">
-          <label className="form-label">Prezime</label>
-          <input className="form-control"
-                 value={form.prezime} onChange={(e)=>setForm({...form, prezime: e.target.value})}/>
+
+        <div className="form-group">
+          <label>Prezime</label>
+          <input
+            type="text"
+            value={form.prezime}
+            onChange={(e) => setForm({ ...form, prezime: e.target.value })}
+            placeholder="Unesi prezime..."
+          />
         </div>
-        <div className="mb-2">
-          <label className="form-label">Korisničko ime</label>
-          <input className="form-control"
-                 value={form.korisnickoIme} onChange={(e)=>setForm({...form, korisnickoIme: e.target.value})}/>
+
+        <div className="form-group">
+          <label>Korisničko ime</label>
+          <input
+            type="text"
+            value={form.korisnickoIme}
+            onChange={(e) =>
+              setForm({ ...form, korisnickoIme: e.target.value })
+            }
+            placeholder="Unesi korisničko ime..."
+          />
         </div>
-        {err && <div className="alert alert-danger py-2">{err}</div>}
-        <div className="d-flex gap-2 mt-3">
-          <button className="btn btn-primary">Sačuvaj</button>
-          <button type="button" className="btn btn-outline-secondary" onClick={()=>nav(-1)}>Nazad</button>
+
+        {err && <div className="error-box">{err}</div>}
+
+        <div className="button-row">
+          <button className="btn-save" type="submit">
+            💾 Sačuvaj
+          </button>
+          <button
+            type="button"
+            className="btn-cancel"
+            onClick={() => nav(-1)}
+          >
+            ↩️ Nazad
+          </button>
         </div>
       </form>
     </div>

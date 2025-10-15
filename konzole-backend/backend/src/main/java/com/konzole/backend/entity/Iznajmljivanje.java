@@ -70,4 +70,7 @@ public class Iznajmljivanje {
         }
         this.ukupanIznos = total;
     }
+
+
+
 }

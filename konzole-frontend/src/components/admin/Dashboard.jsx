@@ -1,24 +1,30 @@
 import { Link } from "react-router-dom";
+import "./Dashboard.css";
 
 export default function Dashboard() {
+  const cards = [
+    { to: "/admin/iznajmljivanja", title: "Iznajmljivanja", icon: "📋" },
+    { to: "/admin/klijenti", title: "Klijenti", icon: "👥" },
+    { to: "/admin/radnici", title: "Radnici", icon: "🧑‍💼" },
+    { to: "/admin/oprema/konzole", title: "Konzole", icon: "🎮" },
+    { to: "/admin/oprema/dodatna", title: "Dodatna oprema", icon: "🎧" },
+  ];
+
   return (
-    <div className="container mt-4">
-      <h3 className="mb-3">Administracija</h3>
-      <div className="row g-3">
-        {[
-          { to: "/admin/iznajmljivanja", title: "Iznajmljivanja" },
-          { to: "/admin/klijenti", title: "Klijenti" },
-          { to: "/admin/radnici", title: "Radnici" },
-          { to: "/admin/oprema/konzole", title: "Konzole" },
-          { to: "/admin/oprema/dodatna", title: "Dodatna oprema" },
-        ].map((c) => (
-          <div className="col-sm-6 col-md-4" key={c.to}>
-            <div className="card h-100">
-              <div className="card-body">
-                <h5>{c.title}</h5>
-                <Link className="btn btn-outline-primary mt-2" to={c.to}>Otvori</Link>
-              </div>
-            </div>
+    <div className="dashboard-container container mt-5">
+      <h2 className="dashboard-title">Administracija</h2>
+      <p className="dashboard-subtitle">
+        Pregledaj i upravljaj podacima sistema
+      </p>
+
+      <div className="dashboard-grid">
+        {cards.map((c) => (
+          <div className="dashboard-card" key={c.to}>
+            <div className="icon">{c.icon}</div>
+            <h5>{c.title}</h5>
+            <Link className="btn-open" to={c.to}>
+              Otvori
+            </Link>
           </div>
         ))}
       </div>

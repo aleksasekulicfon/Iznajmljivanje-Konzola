@@ -20,6 +20,9 @@ public abstract class Oprema {
     private String proizvodjac;
     private Double cena;
 
+    @Column(nullable = false)
+    private Integer zalihe;
+
     @Enumerated(EnumType.STRING)
     private Stanje stanje;
 

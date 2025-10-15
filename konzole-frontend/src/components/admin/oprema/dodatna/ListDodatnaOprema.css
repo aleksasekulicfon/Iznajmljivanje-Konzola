@@ -1,0 +1,249 @@
+.oprema-container {
+  background: #f9fafc;
+  border-radius: 16px;
+  padding: 30px 35px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.header-row h3 {
+  font-weight: 700;
+  color: #222;
+}
+.btn-add {
+  background: linear-gradient(90deg, #008268, #00fffb);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 206, 201, 0.4);
+}
+.btn-add:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.summary-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.summary-item {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.summary-item.free {
+  background: #e8f9e8;
+  color: #2e7d32;
+}
+.summary-item.busy {
+  background: #fff8e1;
+  color: #b58900;
+}
+.summary-item.service {
+  background: #e3f2fd;
+  color: #0277bd;
+}
+.summary-item.total {
+  background: #f1f1f1;
+  color: #444;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+.modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+.modern-table th {
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #666;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+.modern-table td {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  vertical-align: middle;
+}
+.modern-table tr:hover td {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  transition: 0.25s;
+}
+
+.item-img {
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.no-img {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.btn-edit {
+  background: #f1c40f;
+  color: #333;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.btn-edit:hover {
+  background: #f39c12;
+  transform: scale(1.05);
+}
+.btn-delete {
+  background: #ff5252;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-delete:hover {
+  background: #e53935;
+  transform: scale(1.05);
+}
+
+.no-data {
+  text-align: center;
+  color: #777;
+  padding: 20px;
+}
+
+.shine-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideIn 0.8s ease-out forwards;
+}
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.modern-table tbody tr {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: rowFadeIn 0.5s ease forwards;
+  animation-delay: calc(var(--i) * 0.08s);
+}
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efekat na slici dodatne opreme */
+.item-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ✨ Cool hover efekat */
+.item-img:hover {
+  transform: scale(1.15) rotate(1deg);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  filter: brightness(1.1) contrast(1.05);
+  cursor: pointer;
+}
+
+/* 💎 “Glass reflection” efekt — pseudo sloj */
+.item-img::after {
+  content: "";
+  position: absolute;
+  top: -120%;
+  left: -120%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.05) 40%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  transition: 0.6s ease;
+  opacity: 0;
+}
+
+/* Kad hoveruješ — refleks “klizi” preko slike */
+.item-img:hover::after {
+  top: -50%;
+  left: -30%;
+  opacity: 1;
+}
+
+/* Tooltip (naziv opreme) */
+.item-img-container {
+  position: relative;
+  display: inline-block;
+}
+
+.item-tooltip {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 30, 30, 0.85);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.item-img-container:hover .item-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-3px);
+}

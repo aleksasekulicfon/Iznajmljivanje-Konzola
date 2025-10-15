@@ -11,7 +11,8 @@ public class OpremaMapper {
                 o.getNaziv(),
                 o.getProizvodjac(),
                 o.getCena(),
-                o.getStanje()
+                o.getStanje(),
+                o.getZalihe()
         );
     }
 
@@ -23,6 +24,7 @@ public class OpremaMapper {
         o.setProizvodjac(dto.getProizvodjac());
         o.setCena(dto.getCena());
         o.setStanje(dto.getStanje());
+        o.setZalihe(dto.getZalihe());
         return o;
     }
 }

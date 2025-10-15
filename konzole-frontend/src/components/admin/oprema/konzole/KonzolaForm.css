@@ -1,0 +1,137 @@
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 120px);
+  background-color: #f6f7fb;
+  padding: 40px 20px;
+}
+
+.form-container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 600px;
+  padding: 40px 45px;
+  transition: all 0.25s ease;
+  animation: fadeSlideIn 0.5s ease;
+}
+
+.form-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  color: #444;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.8px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #00a98f;
+  box-shadow: 0 0 0 3px rgba(0, 169, 143, 0.1);
+  outline: none;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.btn-save {
+  background: linear-gradient(90deg, #00bfa6, #00d4ff);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 10px;
+  transition: 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 200, 255, 0.2);
+}
+.btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 200, 255, 0.3);
+}
+
+.btn-back {
+  background: #f4f4f4;
+  color: #333;
+  border: 1.6px solid #e0e0e0;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: 0.25s ease;
+}
+.btn-back:hover {
+  background: #e8e8e8;
+}
+
+.error-msg {
+  background: #fdeaea;
+  color: #d32f2f;
+  border: 1px solid #f9b8b8;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Animacija ulaska */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .form-container {
+    padding: 25px 20px;
+  }
+}
+
+.input-group input[type="number"]:not(:placeholder-shown) {
+  transition: box-shadow 0.3s ease, border 0.3s ease;
+}
+.input-group input[type="number"]:valid {
+  border-color: #00bfa6;
+}
+.input-group input[type="number"]:focus {
+  box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.15);
+}

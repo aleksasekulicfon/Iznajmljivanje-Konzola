@@ -1,0 +1,131 @@
+.radnik-form-container {
+  background: #f9fafc;
+  border-radius: 16px;
+  padding: 35px 40px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  max-width: 580px;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.form-title {
+  font-weight: 700;
+  color: #222;
+}
+
+/* INPUT STILOVI */
+.radnik-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.radnik-form label {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.radnik-form input,
+.radnik-form select {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 15px;
+  transition: 0.3s;
+  background: white;
+  box-shadow: 0 0 0 rgba(0, 255, 255, 0);
+}
+
+.radnik-form input:focus,
+.radnik-form select:focus {
+  border-color: #00b894;
+  box-shadow: 0 0 10px rgba(0, 255, 200, 0.3);
+}
+
+/* Dugmad */
+.button-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-save {
+  background: linear-gradient(90deg, #00b894, #00e6c3);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 255, 200, 0.4);
+}
+
+.btn-cancel {
+  background: #f1f1f1;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+/* Poruka o grešci */
+.error-box {
+  background: #ffebee;
+  color: #b71c1c;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+/* Animacija ulaza */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sjajni efekat pri ulasku */
+.shine-in {
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+.shine-in::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 40%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shineLight 1.2s ease-in-out 0.2s forwards;
+}
+@keyframes shineLight {
+  0% {
+    left: -80%;
+  }
+  100% {
+    left: 120%;
+  }
+}

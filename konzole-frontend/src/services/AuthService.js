@@ -1,4 +1,3 @@
-// OPTIONAL: ako već nemaš ovako
 import http from "./http";
 
 // Pokuša radnika, pa klijenta; oba endpointa očekuju query parametre

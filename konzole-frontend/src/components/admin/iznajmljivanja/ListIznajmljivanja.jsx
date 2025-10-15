@@ -16,6 +16,7 @@ export default function ListIznajmljivanja() {
     datum: "",
     iznosOd: "",
     iznosDo: "",
+    placeno: "", // 🔹 novi filter
   });
 
   useEffect(() => {
@@ -57,6 +58,12 @@ export default function ListIznajmljivanja() {
     if (filters.iznosDo)
       data = data.filter((x) => Number(x.ukupanIznos) <= Number(filters.iznosDo));
 
+    // 🔹 filter za placeno
+    if (filters.placeno === "true")
+      data = data.filter((x) => x.placeno === true);
+    if (filters.placeno === "false")
+      data = data.filter((x) => x.placeno === false);
+
     setFiltered(data);
   }, [filters, items, klijenti]);
 
@@ -82,6 +89,14 @@ export default function ListIznajmljivanja() {
     }
   }
 
+  function formatPlaceno(placeno) {
+    return placeno ? (
+      <span className="badge status-paid">✅ Plaćeno</span>
+    ) : (
+      <span className="badge status-unpaid">❌ Nije plaćeno</span>
+    );
+  }
+
   function resetFilters() {
     setFilters({
       ime: "",
@@ -90,11 +105,12 @@ export default function ListIznajmljivanja() {
       datum: "",
       iznosOd: "",
       iznosDo: "",
+      placeno: "",
     });
   }
 
   return (
-    <div className="iznajmljivanja-container container mt-4">
+    <div className="iznajmljivanja-container container mt-4 fade-in">
       <div className="header-row">
         <h3>Iznajmljivanja</h3>
         <Link className="btn-add" to="/admin/iznajmljivanja/new">
@@ -129,6 +145,17 @@ export default function ListIznajmljivanja() {
           <option value="ZAVRSENO">ZAVRŠENO</option>
           <option value="OTKAZANO">OTKAZANO</option>
         </select>
+
+        {/* 🔹 novi filter za plaćeno */}
+        <select
+          value={filters.placeno}
+          onChange={(e) => setFilters({ ...filters, placeno: e.target.value })}
+        >
+          <option value="">-- Filter po plaćanju --</option>
+          <option value="true">Plaćeno</option>
+          <option value="false">Nije plaćeno</option>
+        </select>
+
         <input
           type="number"
           placeholder="Iznos od (€)"
@@ -154,6 +181,7 @@ export default function ListIznajmljivanja() {
             <th>Početak</th>
             <th>Status</th>
             <th>Iznos</th>
+            <th>Plaćeno</th> {/* 🔹 nova kolona */}
             <th></th>
           </tr>
         </thead>
@@ -165,13 +193,11 @@ export default function ListIznajmljivanja() {
               <td>{formatDateTime(x.pocetak)}</td>
               <td>{formatStatus(x.status)}</td>
               <td>{Number(x.ukupanIznos).toFixed(2)} €</td>
+              <td>{formatPlaceno(x.placeno)}</td> {/* 🔹 prikaz */}
               <td className="text-end">
                 <div className="actions">
                   <Link className="btn-detail" to={`/admin/iznajmljivanja/${x.id}`}>
                     🔍 Detalji
-                  </Link>
-                  <Link className="btn-edit" to={`/admin/iznajmljivanja/edit/${x.id}`}>
-                    ✏️ Izmeni
                   </Link>
                 </div>
               </td>
@@ -179,7 +205,7 @@ export default function ListIznajmljivanja() {
           ))}
           {filtered.length === 0 && (
             <tr>
-              <td colSpan={6} className="no-data">
+              <td colSpan={7} className="no-data">
                 Nema podataka.
               </td>
             </tr>

@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import * as AuthService from "../services/AuthService";
+import * as RadnikService from "../services/RadnikService";
 import { useNavigate } from "react-router-dom";
 
 const AuthCtx = createContext(null);
@@ -12,16 +13,24 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   async function login(username, password) {
-    const data = await AuthService.login({ korisnickoIme: username, lozinka: password });
+    const data = await AuthService.login({
+      korisnickoIme: username,
+      lozinka: password,
+    });
+
     const normalized = {
       id: data.id ?? data.userId ?? data.radnikId ?? data.klijentId,
       username: data.korisnickoIme ?? data.username,
       role: data.role,
       token: data.token ?? null,
     };
+
     localStorage.setItem("user", JSON.stringify(normalized));
     setUser(normalized);
-    navigate(normalized.role === "RADNIK" ? "/admin" : "/app", { replace: true });
+
+    navigate(normalized.role === "RADNIK" ? "/admin" : "/app", {
+      replace: true,
+    });
   }
 
   function logout() {

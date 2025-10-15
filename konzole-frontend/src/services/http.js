@@ -1,11 +1,11 @@
 import axios from "axios";
 
-// npr. http://localhost:8080/api  (dev)  ili  /api (prod/reverse-proxy)
+// http://localhost:8080/api
 const base = (import.meta.env.VITE_API_BASE || "/api").replace(/\/$/, "");
 
 const http = axios.create({
   baseURL: base,
-  // withCredentials: true, // uključi ako budeš koristio cookie-session
+  // withCredentials: true za cookies
   timeout: 10000,
 });
 
