@@ -1,0 +1,115 @@
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #1a1a1d, #0d0d0e 70%);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+
+.login-card {
+  background: rgba(35, 35, 40, 0.85);
+  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  padding: 45px 60px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(139, 0, 255, 0.25);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 40px rgba(255, 0, 127, 0.4);
+}
+
+.login-card h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #8b00ff, #ff007f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-card p {
+  color: #b5b5b5;
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #c77dff;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #3a3a3a;
+  background-color: #1e1e22;
+  color: #fff;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #8b00ff;
+  box-shadow: 0 0 8px rgba(139, 0, 255, 0.5);
+}
+
+/* Poruke */
+.msg {
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.msg.error {
+  background: rgba(255, 0, 85, 0.15);
+  border: 1px solid #ff4b8b;
+  color: #ff4b8b;
+}
+
+.msg.success {
+  background: rgba(0, 255, 128, 0.15);
+  border: 1px solid #00ff80;
+  color: #00ff80;
+}
+
+/* Dugme */
+.btn-login {
+  margin-top: 10px;
+  background: linear-gradient(90deg, #8b00ff, #ff007f);
+  color: #fff;
+  font-weight: 600;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.7);
+}
+
+.btn-login:active {
+  transform: scale(0.97);
+}

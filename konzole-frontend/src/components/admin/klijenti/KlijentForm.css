@@ -1,88 +1,132 @@
+/* Glavni kontejner */
 .klijent-form {
-  max-width: 600px;
-  background: #f9fafc;
+  max-width: 800px;
+  margin: 50px auto;
+  background: #ffffff;
   border-radius: 16px;
-  padding: 30px 35px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 45px 55px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.6s ease forwards;
 }
 
+/* Naslov */
 .form-title {
   font-weight: 700;
   color: #222;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.4rem;
 }
 
-.form-box label {
-  font-weight: 600;
-  color: #333;
+/* Grid layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px 28px;
 }
 
+/* Polja */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+/* Inputi */
 .modern-input {
-  border: 1px solid #ddd;
+  border: 1.5px solid #fafafa;
   border-radius: 10px;
   padding: 10px 14px;
-  transition: all 0.2s;
+  font-size: 15px;
+  width: 100%;
+  transition: all 0.25s ease;
+  background-color: #fafafa;
+  height: 44px;
 }
+
 .modern-input:focus {
-  border-color: #00b894;
-  box-shadow: 0 0 0 2px #00b89433;
+  outline: none;
+  border-color: #7b2ff7;
+  box-shadow: 0 0 0 3px rgba(123, 47, 247, 0.2);
+  background-color: #fff;
+}
+
+/* Siva nijansa za disabled input */
+.input-disabled,
+.modern-input:disabled {
+  background-color: #f2f2f2 !important;
+  color: #888 !important;
+  border-color: #e0e0e0 !important;
+  cursor: not-allowed;
 }
 
 /* Dugmad */
-.btn-save {
-  background: linear-gradient(90deg, #008268, #00fffb);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: 600;
-  transition: 0.3s;
+.button-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 30px;
 }
+
+.btn-save,
+.btn-cancel {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 24px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-width: 130px;
+  font-weight: 600;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #7b2ff7, #f107a3);
+  color: #fff;
+}
+
 .btn-save:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(123, 47, 247, 0.3);
 }
 
 .btn-cancel {
-  background: #f1f1f1;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: 600;
-  color: #333;
-  transition: 0.2s;
+  background: #eee;
+  color: #444;
 }
+
 .btn-cancel:hover {
-  background: #e2e2e2;
+  background: #ddd;
 }
 
-.shine-in {
-  position: relative;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: shineSlideIn 0.8s ease-out forwards;
-  overflow: hidden;
+/* Tekst ispod inputa */
+.text-muted {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
 }
 
-.shine-in::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 80%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.6) 40%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  animation: shineLight 2s ease-in-out 0.2s forwards;
+/* Error */
+.alert-error {
+  background: rgba(255, 0, 60, 0.1);
+  color: #b1002f;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-top: 20px;
 }
 
-@keyframes shineSlideIn {
+/* Efekat pojavljivanja */
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(25px);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
@@ -90,11 +134,36 @@
   }
 }
 
-@keyframes shineLight {
-  0% {
-    left: -80%;
+/* Responsivnost */
+@media (max-width: 600px) {
+  .klijent-form {
+    padding: 30px 20px;
   }
-  100% {
-    left: 120%;
+
+  .form-title {
+    font-size: 1.2rem;
   }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  .btn-save,
+  .btn-cancel {
+    width: 100%;
+  }
+}
+
+/* Ispravi boju inputa (override global dark theme) */
+.modern-input {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: 1.5px solid #ccc !important;
+}
+
+.modern-input:focus {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #7b2ff7 !important;
+  box-shadow: 0 0 0 3px rgba(123, 47, 247, 0.2) !important;
 }

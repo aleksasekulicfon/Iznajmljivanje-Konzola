@@ -2,9 +2,11 @@ package com.konzole.backend.service.impl;
 
 import com.konzole.backend.dto.KlijentDto;
 import com.konzole.backend.entity.Klijent;
+import com.konzole.backend.entity.Mesto;
 import com.konzole.backend.exception.ResourceNotFoundException;
 import com.konzole.backend.mapper.KlijentMapper;
 import com.konzole.backend.repository.KlijentRepository;
+import com.konzole.backend.repository.MestoRepository;
 import com.konzole.backend.service.KlijentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,22 @@ import java.util.stream.Collectors;
 public class KlijentServiceImpl implements KlijentService {
 
     private final KlijentRepository klijentRepository;
+    private final MestoRepository mestoRepository;
 
     @Override
     public KlijentDto createKlijent(KlijentDto dto) {
+        if (klijentRepository.findByKorisnickoIme(dto.getKorisnickoIme()).isPresent()) {
+            throw new IllegalArgumentException("Klijent sa tim korisničkim imenom već postoji!");
+        }
+
         Klijent klijent = KlijentMapper.mapToEntity(dto);
+
+        if (dto.getMestoId() != null) {
+            Mesto mesto = mestoRepository.findById(dto.getMestoId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Mesto sa ID " + dto.getMestoId() + " ne postoji."));
+            klijent.setMesto(mesto);
+        }
+
         Klijent saved = klijentRepository.save(klijent);
         return KlijentMapper.mapToDto(saved);
     }
@@ -42,26 +56,37 @@ public class KlijentServiceImpl implements KlijentService {
 
     @Override
     public KlijentDto updateKlijent(Long id, KlijentDto dto) {
-        Klijent klijent = klijentRepository.findById(id)
+        if (klijentRepository.findByKorisnickoIme(dto.getKorisnickoIme()).isPresent()) {
+            throw new IllegalArgumentException("Klijent sa tim korisničkim imenom već postoji!");
+        }
+
+        Klijent existing = klijentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Klijent sa ID " + id + " ne postoji."));
 
-        klijent.setIme(dto.getIme());
-        klijent.setPrezime(dto.getPrezime());
-        klijent.setKorisnickoIme(dto.getKorisnickoIme());
-        klijent.setLozinka(dto.getLozinka());
-        klijent.setEmail(dto.getEmail());
-        klijent.setTelefon(dto.getTelefon());
-        klijent.setKredit(dto.getKredit());
+        if (dto.getIme() != null) existing.setIme(dto.getIme());
+        if (dto.getPrezime() != null) existing.setPrezime(dto.getPrezime());
+        if (dto.getKorisnickoIme() != null) existing.setKorisnickoIme(dto.getKorisnickoIme());
+        if (dto.getEmail() != null) existing.setEmail(dto.getEmail());
+        if (dto.getTelefon() != null) existing.setTelefon(dto.getTelefon());
+        if (dto.getKredit() != null) existing.setKredit(dto.getKredit());
+        if (dto.getLozinka() != null && !dto.getLozinka().isBlank())
+            existing.setLozinka(dto.getLozinka());
 
-        Klijent updated = klijentRepository.save(klijent);
-        return KlijentMapper.mapToDto(updated);
+        if (dto.getMestoId() != null) {
+            Mesto mesto = mestoRepository.findById(dto.getMestoId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Mesto sa ID " + dto.getMestoId() + " ne postoji."));
+            existing.setMesto(mesto);
+        }
+
+        Klijent saved = klijentRepository.save(existing);
+        return KlijentMapper.mapToDto(saved);
     }
 
     @Override
     public void deleteKlijent(Long id) {
         Klijent klijent = klijentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Klijent sa ID " + id + " ne postoji."));
-        klijentRepository.deleteById(id);
+        klijentRepository.delete(klijent);
     }
 
     @Override

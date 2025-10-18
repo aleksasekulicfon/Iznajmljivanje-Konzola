@@ -41,6 +41,10 @@ public class KonzolaServiceImpl implements KonzolaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Konzola sa ID " + id + " ne postoji"));
         k.setNaziv(dto.getNaziv());
         k.setCena(dto.getCena());
+        k.setZalihe(dto.getZalihe());
+        k.setProizvodjac(dto.getProizvodjac());
+        k.setInventarskiBroj(dto.getInventarskiBroj());
+        k.setStanje(dto.getStanje());
         return KonzolaMapper.mapToDto(repo.save(k));
     }
 

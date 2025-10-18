@@ -30,6 +30,7 @@ const ALIASES = {
   "xbox-series-x": ["xbox", "xsx", "series-x", "microsoft-xbox"],
   "dualsense-kontroler": ["dualsense", "ps5-controller", "dual-sense", "dualsensecontroller"],
   "xbox-bezicni-kontroler": ["xboxcontroller", "xbox-controller", "xbox-bezicni", "xbox-kontroler"],
+  "nintendo-switch": ["nintendo", "switch", "nintendo-switch-console"],
 };
 
 function findImagePath(name) {

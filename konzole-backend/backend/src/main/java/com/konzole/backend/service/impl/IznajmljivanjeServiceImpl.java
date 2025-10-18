@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,8 +83,10 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
         if (dto.getPlaceno() != null) e.setPlaceno(dto.getPlaceno());
         if (dto.getStatus() != null) e.setStatus(dto.getStatus());
 
+        oslobodiOpreme(e);
+
+        e.getStavke().clear();
         if (dto.getStavke() != null) {
-            e.getStavke().clear();
             for (StavkaIznajmljivanjaDto sDto : dto.getStavke()) {
                 Oprema oprema = opremaRepository.findById(sDto.getOpremaId())
                         .orElseThrow(() -> new ResourceNotFoundException("Oprema nije pronađena: " + sDto.getOpremaId()));
@@ -91,11 +94,10 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
                 e.addStavka(s);
             }
         }
-        oslobodiOpreme(e);
-        e.getStavke().clear();
 
         e.preracunajUkupno();
         rezervisiOpreme(e);
+
         return IznajmljivanjeMapper.toDto(iznajmljivanjeRepository.save(e));
     }
 
@@ -113,6 +115,15 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
         e.setStatus(Status.ZAVRSENO);
         e.preracunajUkupno();
         oslobodiOpreme(e);
+
+        if (e.getStavke() != null) {
+            for (StavkaIznajmljivanja s : e.getStavke()) {
+                long minuti = Duration.between(e.getPocetak(), e.getKraj()).toMinutes();
+                double sati = minuti / 60.0;
+                s.setUkupnoVreme(Math.round(sati * 100.0) / 100.0);
+            }
+        }
+
         return IznajmljivanjeMapper.toDto(iznajmljivanjeRepository.save(e));
     }
 
@@ -159,5 +170,21 @@ public class IznajmljivanjeServiceImpl implements IznajmljivanjeService {
             opremaRepository.save(oprema);
         }
     }
+
+
+    @Override
+    public IznajmljivanjeDto plati(Long id) {
+        Iznajmljivanje iz = iznajmljivanjeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Nije pronađeno iznajmljivanje."));
+
+        iz.getStavke().size();
+
+        iz.setPlaceno(true);
+
+        Iznajmljivanje sacuvano = iznajmljivanjeRepository.save(iz);
+
+        return IznajmljivanjeMapper.toDto(sacuvano);
+    }
+
 
 }

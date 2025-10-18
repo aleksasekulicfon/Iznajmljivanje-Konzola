@@ -14,4 +14,6 @@ public interface IznajmljivanjeService {
     IznajmljivanjeDto zavrsi(Long id);
 
     IznajmljivanjeDto upsertStavke(Long iznajmljivanjeId, List<com.konzole.backend.dto.StavkaIznajmljivanjaDto> stavke);
+
+    IznajmljivanjeDto plati(Long id);
 }

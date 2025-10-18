@@ -1,0 +1,92 @@
+.app-navbar {
+  background: rgba(25, 25, 25, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.3s ease;
+}
+
+.app-navbar:hover {
+  background: rgba(30, 30, 30, 0.92);
+}
+
+.nav-links .nav-link {
+  position: relative;
+  color: #cfcfcf;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  padding: 0.5rem 0.9rem;
+  display: inline-block;
+}
+
+.nav-links .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #7b2ff7, #f107a3);
+  border-radius: 2px;
+  transition: width 0.25s ease-in-out;
+}
+
+.nav-links .nav-link:hover {
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.nav-links .nav-link:hover::after {
+  background: linear-gradient(90deg, #7b2ff7, #f107a3);
+  width: 90%;
+}
+
+.btn-profile {
+  background: linear-gradient(90deg, #7b2ff7, #f107a3);
+  border: none;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  padding: 6px 14px;
+}
+
+.btn-profile:hover {
+  background: linear-gradient(90deg, #f107a3, #7b2ff7);
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(241, 7, 163, 0.4);
+}
+
+/* 🔹 DROPDOWN */
+.dropdown-menu {
+  background: #1e1e1e;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.dropdown-item {
+  color: #ccc;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(120, 120, 120, 0.15);
+  color: #fff;
+}
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s ease;
+}
+
+.logo-icon {
+  display: inline-block;
+  font-size: 1.4rem;
+  transition: transform 0.5s ease-in-out;
+}
+
+.logo-container:hover .logo-icon {
+  transform: rotate(360deg) scale(1.1);
+}

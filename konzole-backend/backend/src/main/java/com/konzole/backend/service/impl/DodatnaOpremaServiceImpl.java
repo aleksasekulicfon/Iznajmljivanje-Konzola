@@ -41,6 +41,10 @@ public class DodatnaOpremaServiceImpl implements DodatnaOpremaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Dodatna oprema sa ID " + id + " ne postoji"));
         d.setNaziv(dto.getNaziv());
         d.setCena(dto.getCena());
+        d.setZalihe(dto.getZalihe());
+        d.setTip(dto.getTip());
+        d.setProizvodjac(dto.getProizvodjac());
+        d.setStanje(dto.getStanje());
         return DodatnaOpremaMapper.mapToDto(repo.save(d));
     }
 

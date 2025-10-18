@@ -1,0 +1,75 @@
+/* Container glass effect */
+.glass-form {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #333;
+  animation: fadeIn 0.7s ease forwards;
+}
+
+.glass-form h3 {
+  color: #222;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Label styling */
+.form-label {
+  font-weight: 500;
+  color: #444;
+}
+
+/* Inputs */
+.form-control,
+.form-select {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  color: #222;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background: #fff;
+  border-color: #8a2be2;
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+  color: #111;
+}
+
+/* Placeholder text */
+.form-control::placeholder {
+  color: #999;
+}
+
+/* Save button */
+.btn-save {
+  background: linear-gradient(90deg, #7b2ff7, #f107a3);
+  border: none;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 12px 0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, #f107a3, #7b2ff7);
+  box-shadow: 0 6px 18px rgba(123, 47, 247, 0.35);
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

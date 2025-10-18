@@ -34,7 +34,6 @@ public class IznajmljivanjeController {
 
     @PutMapping("{id}")
     public ResponseEntity<IznajmljivanjeDto> update(@PathVariable Long id, @RequestBody IznajmljivanjeDto dto) {
-
         return ResponseEntity.ok(service.update(id, dto));
     }
 
@@ -54,4 +53,10 @@ public class IznajmljivanjeController {
                                                           @RequestBody List<StavkaIznajmljivanjaDto> stavke) {
         return ResponseEntity.ok(service.upsertStavke(id, stavke));
     }
+
+    @PutMapping("{id}/plati")
+    public ResponseEntity<IznajmljivanjeDto> plati(@PathVariable Long id) {
+        return ResponseEntity.ok(service.plati(id));
+    }
+
 }

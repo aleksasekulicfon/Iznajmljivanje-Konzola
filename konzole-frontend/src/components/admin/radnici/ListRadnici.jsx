@@ -25,7 +25,7 @@ export default function ListRadnici() {
   return (
     <div className="radnici-container container mt-4 fade-in">
       <div className="header-row">
-        <h3>👨‍💼 Radnici</h3>
+        <h3>👨🏿‍💼 Radnici</h3>
         <Link className="btn-add" to="/admin/radnici/new">
           + Novi radnik
         </Link>
@@ -55,7 +55,9 @@ export default function ListRadnici() {
             {filtered.map((r, i) => (
               <tr key={r.id} style={{ "--i": i }}>
                 <td>{r.id}</td>
-                <td>{r.ime} {r.prezime}</td>
+                <td>
+                  {r.ime} {r.prezime}
+                </td>
                 <td>{r.korisnickoIme}</td>
                 <td>{r.uloga || "Zaposleni"}</td>
                 <td className="text-end">
@@ -66,6 +68,29 @@ export default function ListRadnici() {
                     >
                       ✏️ Izmeni
                     </Link>
+                    <button
+                      className="btn-action delete"
+                      onClick={async () => {
+                        if (
+                          window.confirm(
+                            `Da li ste sigurni da želite da obrišete radnika ${r.ime} ${r.prezime}?`
+                          )
+                        ) {
+                          try {
+                            await RadnikService.remove(r.id);
+                            setItems((prev) =>
+                              prev.filter((x) => x.id !== r.id)
+                            );
+                            alert("🗑️ Radnik je uspešno obrisan!");
+                          } catch (err) {
+                            alert("❌ Greška pri brisanju radnika.");
+                            console.error(err);
+                          }
+                        }
+                      }}
+                    >
+                      🗑️ Obriši
+                    </button>
                   </div>
                 </td>
               </tr>

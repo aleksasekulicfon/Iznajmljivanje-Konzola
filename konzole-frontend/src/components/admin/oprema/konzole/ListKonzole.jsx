@@ -8,6 +8,16 @@ import nintendo from "../../../../assets/nintendo.jpg";
 
 export default function ListKonzole() {
   const [items, setItems] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [filters, setFilters] = useState({
+    naziv: "",
+    proizvodjac: "",
+    cenaOd: "",
+    cenaDo: "",
+    zaliheOd: "",
+    zaliheDo: "",
+    stanje: "",
+  });
 
   useEffect(() => {
     loadData();
@@ -16,15 +26,46 @@ export default function ListKonzole() {
   async function loadData() {
     const data = await OpremaService.listKonzole();
     setItems(data);
+    setFiltered(data);
   }
 
-  // Izračunaj broj po statusima
-  const slobodne = items.filter((x) => x.stanje === "SLOBODNA").length;
-  const zauzete = items.filter((x) => x.stanje === "ZAUZETA").length;
-  const servis = items.filter((x) => x.stanje === "SERVIS").length;
+  async function obrisiKonzolu(id) {
+    if (window.confirm("Da li ste sigurni da želite da obrišete ovu konzolu?")) {
+      try {
+        await OpremaService.removeKonzola(id);
+        alert("Sistem je obrisao konzolu!");
+        setItems((prev) => prev.filter((x) => x.id !== id));
+        setFiltered((prev) => prev.filter((x) => x.id !== id));
+      } catch (err) {
+        alert("Greška pri brisanju konzole.");
+        console.error(err);
+      }
+    }
+  }
 
-  // Ukupan broj konzola na stanju
-  const ukupnoZaliha = items.reduce((sum, x) => sum + (x.zalihe || 0), 0);
+  // 🔍 Filter logika
+  useEffect(() => {
+    let data = items.filter((x) => {
+      const naziv = x.naziv.toLowerCase();
+      const proizvodjac = x.proizvodjac?.toLowerCase() || "";
+
+      return (
+        naziv.includes(filters.naziv.toLowerCase()) &&
+        proizvodjac.includes(filters.proizvodjac.toLowerCase()) &&
+        (filters.stanje ? x.stanje === filters.stanje : true) &&
+        (filters.cenaOd ? x.cena >= parseFloat(filters.cenaOd) : true) &&
+        (filters.cenaDo ? x.cena <= parseFloat(filters.cenaDo) : true) &&
+        (filters.zaliheOd ? x.zalihe >= parseInt(filters.zaliheOd) : true) &&
+        (filters.zaliheDo ? x.zalihe <= parseInt(filters.zaliheDo) : true)
+      );
+    });
+    setFiltered(data);
+  }, [filters, items]);
+
+  const slobodne = filtered.filter((x) => x.stanje === "SLOBODNA").length;
+  const zauzete = filtered.filter((x) => x.stanje === "ZAUZETA").length;
+  const servis = filtered.filter((x) => x.stanje === "SERVIS").length;
+  const ukupnoZaliha = filtered.reduce((sum, x) => sum + (x.zalihe || 0), 0);
 
   function formatStanje(stanje) {
     switch (stanje) {
@@ -41,10 +82,10 @@ export default function ListKonzole() {
 
   function formatZalihe(z) {
     if (z <= 3)
-      return <span style={{ color: "#d32f2f", fontWeight: "600" }}>{z}</span>; // crveno
+      return <span style={{ color: "#d32f2f", fontWeight: "600" }}>{z}</span>;
     if (z <= 10)
-      return <span style={{ color: "#fbc02d", fontWeight: "600" }}>{z}</span>; // žuto
-    return <span style={{ color: "#2e7d32", fontWeight: "600" }}>{z}</span>; // zeleno
+      return <span style={{ color: "#fbc02d", fontWeight: "600" }}>{z}</span>;
+    return <span style={{ color: "#2e7d32", fontWeight: "600" }}>{z}</span>;
   }
 
   function getSlika(naziv) {
@@ -52,12 +93,11 @@ export default function ListKonzole() {
     if (ime.includes("playstation") || ime.includes("ps5")) return ps5;
     if (ime.includes("xbox")) return xbox;
     if (ime.includes("nintendo")) return nintendo;
-    return "https://via.placeholder.com/80?text=Konzola"; // fallback
+    return "https://via.placeholder.com/80?text=Konzola";
   }
 
   return (
     <div className="konzole-container container mt-4 shine-in">
-      {/* Header */}
       <div className="header-row">
         <h3>🎮 Konzole</h3>
         <Link className="btn-add" to="/admin/oprema/konzole/new">
@@ -65,17 +105,62 @@ export default function ListKonzole() {
         </Link>
       </div>
 
-      {/* Info bar */}
+      {/* 🔽 FILTER SEKCIJA */}
+      <div className="filter-bar">
+        <input
+          type="text"
+          placeholder="🔍 Naziv..."
+          value={filters.naziv}
+          onChange={(e) => setFilters({ ...filters, naziv: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="🏭 Proizvođač..."
+          value={filters.proizvodjac}
+          onChange={(e) => setFilters({ ...filters, proizvodjac: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="€ Cena od"
+          value={filters.cenaOd}
+          onChange={(e) => setFilters({ ...filters, cenaOd: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="€ Cena do"
+          value={filters.cenaDo}
+          onChange={(e) => setFilters({ ...filters, cenaDo: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="📦 Zalihe od"
+          value={filters.zaliheOd}
+          onChange={(e) => setFilters({ ...filters, zaliheOd: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="📦 Zalihe do"
+          value={filters.zaliheDo}
+          onChange={(e) => setFilters({ ...filters, zaliheDo: e.target.value })}
+        />
+        <select
+          value={filters.stanje}
+          onChange={(e) => setFilters({ ...filters, stanje: e.target.value })}
+        >
+          <option value="">Sva stanja</option>
+          <option value="SLOBODNA">Slobodna</option>
+          <option value="ZAUZETA">Zauzeta</option>
+          <option value="SERVIS">Servis</option>
+        </select>
+      </div>
+
+      {/* Statistika */}
       <div className="summary-bar">
         <div className="summary-item free">🟢 Slobodnih: {slobodne}</div>
         <div className="summary-item busy">🟡 Zauzetih: {zauzete}</div>
         <div className="summary-item service">🔧 Na servisu: {servis}</div>
-        <div className="summary-item total">
-          🎮 Ukupno konzola: {items.length}
-        </div>
-        <div className="summary-item total">
-          📦 Ukupno na stanju: {ukupnoZaliha}
-        </div>
+        <div className="summary-item total">🎮 Ukupno: {filtered.length}</div>
+        <div className="summary-item total">📦 Na stanju: {ukupnoZaliha}</div>
       </div>
 
       {/* Tabela */}
@@ -94,14 +179,10 @@ export default function ListKonzole() {
             </tr>
           </thead>
           <tbody>
-            {items.map((x, i) => (
+            {filtered.map((x, i) => (
               <tr key={x.id} style={{ "--i": i }}>
                 <td>
-                  <img
-                    src={getSlika(x.naziv)}
-                    alt={x.naziv}
-                    className="console-img"
-                  />
+                  <img src={getSlika(x.naziv)} alt={x.naziv} className="console-img" />
                 </td>
                 <td>{x.id}</td>
                 <td>{x.naziv}</td>
@@ -110,19 +191,19 @@ export default function ListKonzole() {
                 <td>{formatZalihe(x.zalihe)}</td>
                 <td>{formatStanje(x.stanje)}</td>
                 <td className="text-end">
-                  <Link
-                    className="btn-edit"
-                    to={`/admin/oprema/konzole/${x.id}`}
-                  >
+                  <Link className="btn-edit" to={`/admin/oprema/konzole/${x.id}`}>
                     ✏️ Izmeni
                   </Link>
+                  <button className="btn-delete" onClick={() => obrisiKonzolu(x.id)}>
+                    🗑️ Obriši
+                  </button>
                 </td>
               </tr>
             ))}
-            {items.length === 0 && (
+            {filtered.length === 0 && (
               <tr>
-                <td colSpan={7} className="no-data">
-                  Nema podataka o konzolama.
+                <td colSpan={8} className="no-data">
+                  Nema rezultata za zadate filtere.
                 </td>
               </tr>
             )}

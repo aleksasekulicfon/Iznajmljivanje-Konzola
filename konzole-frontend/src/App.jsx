@@ -17,13 +17,17 @@ import DodatnaOpremaForm from "./components/admin/oprema/dodatna/DodatnaOpremaFo
 import ListIznajmljivanja from "./components/admin/iznajmljivanja/ListIznajmljivanja";
 import IznajmljivanjeForm from "./components/admin/iznajmljivanja/IznajmljivanjeForm";
 import IznajmljivanjeDetalj from "./components/admin/iznajmljivanja/IznajmljivanjeDetalj";
+import ProfilForm from "./components/common/ProfilForm";
+import RegisterClient from "./components/auth/RegisterClient";
+
+
 
 // Client
 import Home from "./components/client/Home";
 import Catalog from "./components/client/Catalog";
-import RentalNew from "./components/client/RentalNew";
 import WalletTopUp from "./components/client/WalletTopUp";
 import MyRentals from "./components/client/MyRentals";
+import RentalDetail from "./components/client/RentalDetail";
 
 export default function App() {
   return (
@@ -33,11 +37,13 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register-client" element={<RegisterClient />} />
         <Route path="/unauthorized" element={<div className="container mt-4">Nemate dozvolu.</div>} />
 
         {/* ADMIN */}
         <Route element={<RequireAuth allow={['RADNIK']} />}>
           <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/profil" element={<ProfilForm role="RADNIK" />} />
           <Route path="/admin/radnici" element={<ListRadnici />} />
           <Route path="/admin/radnici/:id" element={<RadnikForm />} />
           <Route path="/admin/klijenti" element={<ListKlijenti />} />
@@ -54,9 +60,10 @@ export default function App() {
         {/* CLIENT */}
         <Route element={<RequireAuth allow={['KLIJENT']} />}>
           <Route path="/app" element={<Home />} />
+          <Route path="/app/profil" element={<ProfilForm role="KLIJENT" />} />
           <Route path="/app/catalog" element={<Catalog />} />
           <Route path="/app/rentals" element={<MyRentals />} />
-          <Route path="/app/rentals/new" element={<RentalNew />} />
+          <Route path="/app/rentals/:id" element={<RentalDetail />} />
           <Route path="/app/wallet" element={<WalletTopUp />} />
         </Route>
 

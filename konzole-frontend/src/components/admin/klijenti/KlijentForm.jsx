@@ -14,8 +14,8 @@ export default function KlijentForm() {
     korisnickoIme: "",
     email: "",
     telefon: "",
-    kredit: 0, // 🔹 automatski
-    lozinka: "", // 🔹 klijent je kasnije postavlja sam
+    kredit: 0,
+    lozinka: "",
   });
 
   const [err, setErr] = useState("");
@@ -28,10 +28,35 @@ export default function KlijentForm() {
 
   async function onSubmit(e) {
     e.preventDefault();
+
+    if (
+      form.ime.length < 3 ||
+      form.prezime.length < 3 ||
+      form.korisnickoIme.length < 3 ||
+      (form.email && form.email.length < 3) ||
+      form.telefon.length < 3
+    ) {
+      setErr("Sva polja moraju imati najmanje 3 karaktera.");
+      return;
+    }
+
+    if (!/^\d+$/.test(form.telefon)) {
+      setErr("Telefon može sadržati samo brojeve.");
+      return;
+    }
     try {
-      const payload = { ...form, kredit: form.kredit ?? 0, lozinka: form.lozinka ?? "" };
-      if (isNew) await KlijentService.create(payload);
-      else await KlijentService.update(id, payload);
+      const payload = {
+        ...form,
+        kredit: form.kredit ?? 0,
+        lozinka: form.lozinka ?? "",
+      };
+      if (isNew) {
+        await KlijentService.create(payload);
+        alert("✅ Sistem je kreirao klijenta!");
+      } else {
+        await KlijentService.update(id, payload);
+        alert("✅ Sistem je promenio klijenta!");
+      }
       nav("/admin/klijenti");
     } catch (e) {
       setErr(e?.response?.data?.message || "Došlo je do greške.");
@@ -39,40 +64,87 @@ export default function KlijentForm() {
   }
 
   return (
-    <div className="klijent-form container mt-4 shine-in">
-      <h3 className="form-title mb-3">{isNew ? "➕ Novi klijent" : `✏️ Izmena klijenta #${id}`}</h3>
+    <div className="klijent-form">
+      <h3 className="form-title">
+        {isNew ? "➕ Novi klijent" : `✏️ Izmena klijenta #${id}`}
+      </h3>
 
       <form onSubmit={onSubmit} className="form-box">
-        <div className="row">
-          {["ime", "prezime", "korisnickoIme", "email", "telefon"].map((f) => (
-            <div className="col-md-6 mb-3" key={f}>
-              <label className="form-label text-capitalize">{f}</label>
-              <input
-                className="form-control modern-input"
-                value={form[f] || ""}
-                onChange={(e) => setForm({ ...form, [f]: e.target.value })}
-                required={["ime", "prezime", "korisnickoIme"].includes(f)}
-              />
-            </div>
-          ))}
+        <div className="form-grid">
+          <div className="form-group">
+            <label>Ime</label>
+            <input
+              className="modern-input"
+              value={form.ime}
+              onChange={(e) => setForm({ ...form, ime: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Prezime</label>
+            <input
+              className="modern-input"
+              value={form.prezime}
+              onChange={(e) => setForm({ ...form, prezime: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Korisničko ime</label>
+            <input
+              className="modern-input"
+              value={form.korisnickoIme}
+              onChange={(e) =>
+                setForm({ ...form, korisnickoIme: e.target.value })
+              }
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              className="modern-input"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Telefon</label>
+            <input
+              type="tel"
+              className="modern-input"
+              value={form.telefon}
+              onChange={(e) => setForm({ ...form, telefon: e.target.value })}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Kredit (€)</label>
+            <input
+              type="number"
+              className={`modern-input ${isNew ? "input-disabled" : ""}`}
+              value={form.kredit}
+              onChange={(e) =>
+                setForm({ ...form, kredit: Number(e.target.value) })
+              }
+              disabled={isNew}
+            />
+            {isNew && (
+              <small className="text-muted">
+                Kredit se automatski postavlja na 0.
+              </small>
+            )}
+          </div>
         </div>
 
-        {/* Kredit prikaz samo informativno */}
-        <div className="mb-3">
-          <label className="form-label">Kredit (€)</label>
-          <input
-            type="number"
-            className="form-control modern-input"
-            value={form.kredit}
-            onChange={(e) => setForm({ ...form, kredit: Number(e.target.value) })}
-            disabled={isNew} // 🔹 Admin ne unosi kod novog klijenta
-          />
-          {isNew && <small className="text-muted">Kredit se automatski postavlja na 0.</small>}
-        </div>
+        {err && <div className="alert-error">{err}</div>}
 
-        {err && <div className="alert alert-danger py-2">{err}</div>}
-
-        <div className="d-flex gap-2 mt-3">
+        <div className="button-row">
           <button className="btn-save" type="submit">
             💾 Sačuvaj
           </button>

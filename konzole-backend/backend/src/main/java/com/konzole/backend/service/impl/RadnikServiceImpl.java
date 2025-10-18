@@ -20,6 +20,9 @@ public class RadnikServiceImpl implements RadnikService {
 
     @Override
     public RadnikDto createRadnik(RadnikDto radnikDto) {
+        if (radnikRepository.findByKorisnickoIme(radnikDto.getKorisnickoIme()).isPresent()) {
+            throw new IllegalArgumentException("Radnik sa tim korisničkim imenom već postoji!");
+        }
         Radnik radnik = RadnikMapper.mapToRadnik(radnikDto);
         Radnik savedRadnik = radnikRepository.save(radnik);
         return RadnikMapper.mapToRadnikDto(savedRadnik);
@@ -42,6 +45,10 @@ public class RadnikServiceImpl implements RadnikService {
 
     @Override
     public RadnikDto updateRadnik(Long radnikId, RadnikDto updatedRadnik) {
+        if (radnikRepository.findByKorisnickoIme(updatedRadnik.getKorisnickoIme()).isPresent()) {
+            throw new IllegalArgumentException("Radnik sa tim korisničkim imenom već postoji!");
+        }
+
         Radnik radnik = radnikRepository.findById(radnikId)
                 .orElseThrow(() -> new ResourceNotFoundException("Radnik sa ID " + radnikId + " ne postoji"));
 

@@ -181,7 +181,6 @@
   box-shadow: 0 0 18px rgba(0, 255, 242, 0.7);
 }
 
-/* Efekat stakla na celu tabelu */
 .modern-table td {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(8px);
@@ -191,8 +190,75 @@
   background: rgba(255, 255, 255, 1);
 }
 
-/* Lagani sjaj na hoveru reda */
 .modern-table tr:hover {
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.25);
   transition: box-shadow 0.3s ease;
+}
+
+.btn-delete {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-delete:hover {
+  background-color: #b71c1c;
+  transform: scale(1.05);
+}
+
+.btn-edit {
+  background-color: #0288d1;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-edit:hover {
+  background-color: #0277bd;
+  transform: scale(1.05);
+}
+/* ======================
+   FILTER BAR
+====================== */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(6px);
+  animation: fadeSlideIn 0.6s ease-out;
+}
+
+.filter-bar input,
+.filter-bar select {
+  flex: 1;
+  min-width: 150px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: #00bfa5;
+  box-shadow: 0 0 6px rgba(0, 191, 165, 0.3);
+  transform: translateY(-2px);
 }

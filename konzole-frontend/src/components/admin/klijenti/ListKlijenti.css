@@ -1,15 +1,22 @@
+/* ================================
+   GLAVNI KONTEJNER
+================================ */
 .klijenti-container {
   background: #f9fafc;
   border-radius: 16px;
   padding: 30px 35px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  animation: fadeSlideIn 0.7s ease-out forwards;
 }
 
+/* ================================
+   HEADER
+================================ */
 .header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .header-row h3 {
@@ -32,30 +39,65 @@
   opacity: 0.9;
 }
 
-/* Filter */
+/* ================================
+   FILTER SEKCIJA
+================================ */
 .filter-row {
   margin-bottom: 20px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   justify-content: flex-start;
 }
-.filter-row input {
+
+.filter-row input,
+.filter-row select {
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 8px 16px;
-  min-width: 280px;
+  padding: 8px 14px;
+  min-width: 200px;
   outline: none;
-  transition: 0.2s;
-}
-.filter-row input:focus {
-  border-color: #00b894;
-  box-shadow: 0 0 0 2px #00b89433;
+  background: #fff;
+  font-size: 14px;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-/* Table */
+.filter-row input:focus,
+.filter-row select:focus {
+  border-color: #00b894;
+  box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.2);
+  transform: translateY(-1px);
+}
+
+.filter-row select {
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #00b894 50%),
+    linear-gradient(135deg, #00b894 50%, transparent 50%);
+  background-position: calc(100% - 16px) calc(1em + 2px),
+    calc(100% - 11px) calc(1em + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.filter-row select:hover {
+  background-color: #fdfdfd;
+}
+
+.filter-row select option {
+  color: #222;
+  background: #fff;
+}
+
+/* ================================
+   TABELA
+================================ */
 .modern-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 8px;
+  transition: 0.3s;
 }
 
 .modern-table th {
@@ -72,6 +114,7 @@
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   vertical-align: middle;
+  transition: all 0.25s ease;
 }
 
 .modern-table tr:hover td {
@@ -80,6 +123,9 @@
   transition: 0.25s;
 }
 
+/* ================================
+   AKCIJE (EDIT / DELETE)
+================================ */
 .actions {
   display: flex;
   gap: 8px;
@@ -105,6 +151,13 @@
   background: #2980b9;
 }
 
+.btn-action.delete {
+  background: #e74c3c;
+}
+.btn-action.delete:hover {
+  background: #c0392b;
+}
+
 .btn-action.reset {
   background: #ff9800;
 }
@@ -112,12 +165,19 @@
   background: #fb8c00;
 }
 
+/* ================================
+   NO DATA
+================================ */
 .no-data {
   text-align: center;
   color: #777;
   padding: 20px;
+  font-style: italic;
 }
 
+/* ================================
+   ANIMACIJE
+================================ */
 .fade-in {
   opacity: 0;
   transform: translateY(15px);
@@ -134,5 +194,31 @@
     opacity: 1;
     transform: translateY(0);
     filter: blur(0);
+  }
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-row input,
+  .filter-row select {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .header-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: flex-end;
   }
 }

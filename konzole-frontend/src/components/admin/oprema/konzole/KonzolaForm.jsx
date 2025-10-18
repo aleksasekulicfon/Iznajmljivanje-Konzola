@@ -52,6 +52,25 @@ export default function KonzolaForm() {
     e.preventDefault();
     setErr("");
 
+    if (
+      !form.naziv.trim() ||
+      !form.proizvodjac.trim() ||
+      !form.inventarskiBroj.trim()
+    ) {
+      setErr("Sva tekstualna polja moraju biti popunjena.");
+      return;
+    }
+
+    if (isNaN(form.cena) || form.cena <= 0) {
+      setErr("Cena mora biti broj veći od nule.");
+      return;
+    }
+
+    if (isNaN(form.zalihe) || form.zalihe <= 0) {
+      setErr("Zalihe ne mogu biti negativne ili nula pri pravljenju konzole.");
+      return;
+    }
+
     try {
       const cleanForm = {
         ...form,
@@ -61,8 +80,23 @@ export default function KonzolaForm() {
         zalihe: Number(form.zalihe) || 0,
       };
 
-      if (isNew) await OpremaService.createKonzola(cleanForm);
-      else await OpremaService.updateKonzola(id, cleanForm);
+      if (
+        !form.naziv ||
+        !form.proizvodjac ||
+        !form.cena ||
+        !form.inventarskiBroj
+      ) {
+        alert("Sva polja su obavezna!");
+        return;
+      }
+
+      if (isNew) {
+        await OpremaService.createKonzola(cleanForm);
+        alert("✅ Sistem je kreirao konzolu!");
+      } else {
+        await OpremaService.updateKonzola(id, cleanForm);
+        alert("✅ Sistem je izmenio konzolu!");
+      }
 
       nav("/admin/oprema/konzole");
     } catch (e) {
@@ -126,11 +160,7 @@ export default function KonzolaForm() {
             <button type="submit" className="btn-save">
               💾 {isNew ? "Sačuvaj konzolu" : "Sačuvaj izmene"}
             </button>
-            <button
-              type="button"
-              className="btn-back"
-              onClick={() => nav(-1)}
-            >
+            <button type="button" className="btn-back" onClick={() => nav(-1)}>
               ⬅️ Nazad
             </button>
           </div>

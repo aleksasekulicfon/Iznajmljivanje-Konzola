@@ -5,7 +5,7 @@ export default function Dashboard() {
   const cards = [
     { to: "/admin/iznajmljivanja", title: "Iznajmljivanja", icon: "📋" },
     { to: "/admin/klijenti", title: "Klijenti", icon: "👥" },
-    { to: "/admin/radnici", title: "Radnici", icon: "🧑‍💼" },
+    { to: "/admin/radnici", title: "Radnici", icon: "👨🏿‍💼" },
     { to: "/admin/oprema/konzole", title: "Konzole", icon: "🎮" },
     { to: "/admin/oprema/dodatna", title: "Dodatna oprema", icon: "🎧" },
   ];

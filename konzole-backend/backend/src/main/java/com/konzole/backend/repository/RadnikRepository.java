@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface RadnikRepository extends JpaRepository<Radnik, Long> {
     Optional<Radnik> findByKorisnickoImeAndLozinka(String korisnickoIme, String lozinka);
+    Optional<Radnik> findByKorisnickoIme(String korisnickoIme);
 }

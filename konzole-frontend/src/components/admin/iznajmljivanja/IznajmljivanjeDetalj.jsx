@@ -113,6 +113,7 @@ export default function IznajmljivanjeDetalj() {
         status: item.status,
         kraj: item.kraj || null,
         stavke: item.stavke.map((s, i) => ({
+          id: s.id || null,
           rb: i + 1,
           opremaId: s.opremaId,
           kolicina: Number(s.kolicina || 1),
@@ -193,7 +194,7 @@ export default function IznajmljivanjeDetalj() {
             {item.status}
           </span>
         </p>
-        {item.status !== "ZAVRSENO" && (
+        {item.status !== "ZAVRSENO" && item.status !== "OTKAZANO" && (
           <button
             className="btn-edit"
             onClick={() => setIsEditing((prev) => !prev)}
@@ -219,18 +220,24 @@ export default function IznajmljivanjeDetalj() {
         <div className="info-card">
           <span className="label">Kraj</span>
           {isEditing ? (
-            <input
-              type="datetime-local"
-              value={
-                item.kraj ? new Date(item.kraj).toISOString().slice(0, 16) : ""
-              }
-              onChange={(e) =>
-                setItem({
-                  ...item,
-                  kraj: new Date(e.target.value).toISOString(),
-                })
-              }
-            />
+            item.status === "U_TOKU" ? (
+              <p>{item.kraj ? formatDateTime(item.kraj) : "-"}</p> // ❌ Ne može da menja dok traje
+            ) : (
+              <input
+                type="datetime-local"
+                value={
+                  item.kraj
+                    ? new Date(item.kraj).toISOString().slice(0, 16)
+                    : ""
+                }
+                onChange={(e) =>
+                  setItem({
+                    ...item,
+                    kraj: new Date(e.target.value).toISOString(),
+                  })
+                }
+              />
+            )
           ) : (
             <p>{item.kraj ? formatDateTime(item.kraj) : "-"}</p>
           )}
